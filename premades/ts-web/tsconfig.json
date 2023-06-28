@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "sourceMap": true,
+        "allowJs": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "es2015",
+        "moduleResolution": "node",
+        "isolatedModules": true,
+        "noFallthroughCasesInSwitch": true,
+        "removeComments": true,
+        "noImplicitAny": true,
+        "jsx": "react",
+        "outDir": "./dist/"
+    },
+    "include": ["src/**/*"]
+}
