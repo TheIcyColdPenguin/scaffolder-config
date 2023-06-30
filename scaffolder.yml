@@ -62,3 +62,99 @@ projects:
                 cd innards
                 && cargo add wasm-bindgen
                 && cargo add console_error_panic_hook
+
+    - names: [rust-wasm-webgl]
+      description: A Rust webgl starter project bundled using vite
+      steps:
+          - !command
+            command: yarn
+            args: [create, vite, ., --template, vanilla-ts]
+          - !command
+            command: yarn
+            args: []
+          - !template
+            template: package.json
+            file: package.json
+            replacements:
+                main: ""
+                type: module
+                scripts: |4
+                        "dev": "wasm-pack build ./innards --target web && yarn build && tsc && yarn preview",
+                        "build": "vite build",
+                        "preview": "vite preview"
+          - !command
+            command: yarn
+            args: [add, -D, vite, vite-plugin-wasm-pack, typescript]
+          - !command
+            command: cargo
+            args: [init, --lib, innards]
+          - !create
+            file: Cargo.toml
+            contents: |
+                [workspace]
+                members = ["innards"]
+          - !copy
+            from: rust-wasm-webgl/vite.config.ts
+            to: vite.config.ts
+          - !copy
+            from: rust-wasm-webgl/main.ts
+            to: src/main.ts
+          - !copy
+            from: rust-wasm-webgl/Cargo.toml
+            to: innards/Cargo.toml
+          - !copy
+            from: rust-wasm-webgl/src/app.rs
+            to: innards/src/app.rs
+          - !copy
+            from: rust-wasm-webgl/src/lib.rs
+            to: innards/src/lib.rs
+          - !copy
+            from: rust-wasm-webgl/src/webgl_manager.rs
+            to: innards/src/webgl_manager.rs
+          - !copy
+            from: rust-wasm-webgl/src/shader.frag
+            to: innards/src/shader.frag
+          - !copy
+            from: rust-wasm-webgl/src/shader.vert
+            to: innards/src/shader.vert
+          - !append
+            file: .gitignore
+            contents: |
+
+                target
+          - !remove
+            file: public/vite.svg
+          - !remove
+            file: src/typescript.svg
+          - !remove
+            file: src/counter.ts
+          - !command
+            command: rm
+            args: [-rf, innards/.git]
+          - !template
+            template: index.html
+            file: index.html
+            replacements:
+                title: WebGL with Rust
+                head: |4
+                            <style>
+                                html,
+                                body,
+                                canvas {
+                                    padding: none;
+                                    margin: none;
+                                    background-color: #111;
+                                    width: 100vw;
+                                    height: 100vh;
+                                }
+                                body {
+                                    display: grid;
+                                    place-items: center;
+                                }
+                                canvas {
+                                    border-radius: 5px;
+                                }
+                            </style>
+                body: |4
+                            <canvas></canvas>
+                            <script type="module" src="/src/main.ts"></script>
