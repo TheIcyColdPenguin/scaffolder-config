@@ -4,29 +4,29 @@
 names = ["rust-wasm-web"]
 description = "A rust wasm starter project bundled with vite"
 
-[[projects.commands]]
+[[projects.steps]]
 type = "command"
 command = "yarn"
 args =  ["create", "vite", ".", "--template", "vanilla-ts"]
 
-[[projects.commands]]
+[[projects.steps]]
 type = "command"
 command = "yarn"
 args =  []
 
 
-[[projects.commands]]
+[[projects.steps]]
 type = "command"
 command = "yarn"
 args =  ["add", "-D", "vite", "vite-plugin-wasm-pack"]
 
-[[projects.commands]]
+[[projects.steps]]
 type = "command"
 command = "cargo"
 args =  ["init", "--lib", "innards"]
 
 
-[[projects.commands]]
+[[projects.steps]]
 type = "create"
 file = "Cargo.toml"
 contents = """ \
@@ -34,22 +34,22 @@ contents = """ \
 members = ["innards"]
 """
 
-[[projects.commands]]
+[[projects.steps]]
 type = "copy"
 src_file = "rust-wasm-web/vite.config.ts"
 dest_file = "vite.config.ts"
 
-[[projects.commands]]
+[[projects.steps]]
 type = "copy"
 src_file = "rust-wasm-web/main.ts"
 dest_file = "src/main.ts"
 
-[[projects.commands]]
+[[projects.steps]]
 type = "copy"
 src_file = "rust-wasm-web/lib.rs"
 dest_file = "innards/src/lib.rs"
 
-[[projects.commands]]
+[[projects.steps]]
 type = "append"
 file = "innards/Cargo.toml"
 contents = """
@@ -58,7 +58,7 @@ contents = """
 crate-type = ["cdylib"]
 """
 
-[[projects.commands]]
+[[projects.steps]]
 type = "append"
 file = ".gitignore"
 contents = """
@@ -66,23 +66,23 @@ contents = """
 target
 """
 
-[[projects.commands]]
+[[projects.steps]]
 type = "remove"
 file = "public/vite.svg"
 
-[[projects.commands]]
+[[projects.steps]]
 type = "remove"
 file = "src/typescript.svg"
 
-[[projects.commands]]
+[[projects.steps]]
 type = "remove"
 file = "src/counter.ts"
 
-[[projects.commands]]
+[[projects.steps]]
 type = "template"
 template = "package.json"
 dest_file = "package.json"
-[projects.commands.replacements]
+[projects.steps.replacements]
 main = ""
 type = "module"
 scripts = """
@@ -91,19 +91,19 @@ scripts = """
         "preview": "vite preview"
 """
 
-[[projects.commands]]
+[[projects.steps]]
 type = "multicommand"
 command = """cd innards \
         && cargo add wasm-bindgen \
         && cargo add console_error_panic_hook \
 """
 
-[[projects.commands]]
+[[projects.steps]]
 type = "command"
 command = "yarn"
 args =  ["add", "-D", "vite-plugin-wasm-pack", "typescript", "vite" ]
 
-[[projects.commands]]
+[[projects.steps]]
 type = "command"
 command = "wasm-pack"
 args =  ["build", "./innards", "--target", "web"]
