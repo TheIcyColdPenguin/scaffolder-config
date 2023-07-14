@@ -9,6 +9,8 @@ init().then(() => {
         alert("canvas not found");
         return;
     }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     const context = canvas.getContext("webgl2");
     if (!context) {
