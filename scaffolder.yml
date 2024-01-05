@@ -158,3 +158,41 @@ projects:
                 body: |4
                             <canvas></canvas>
                             <script type="module" src="/src/main.ts"></script>
+
+    - names: [rust-bevy-native]
+      description: A barebones Bevy project that runs natively
+      steps:
+          - !command
+            command: cargo
+            args: [init]
+          - !append
+            file: Cargo.toml
+            contents: |
+                [dependencies]
+                bevy = { version = "0.12.1", features = ["dynamic_linking"] }
+
+                [profile.dev]
+                opt-level = 0
+
+                [profile.dev.package."*"]
+                opt-level = 3
+          - !copy
+            from: rust-bevy-native/main.rs
+            to: src/main.rs
+          - !copy
+            from: rust-bevy-native/window.rs
+            to: src/window.rs
+          - !copy
+            from: rust-bevy-native/settings.json
+            to: .vscode/settings.json
+          - !copy
+            from: rust-bevy-native/settings.json
+            to: .vscode/settings.json
+          - !copy
+            from: rust-bevy-native/config.toml
+            to: .cargo/config.toml
+          - !create
+            file: rust-toolchain.toml
+            contents: |
+                [toolchain]
+                channel = "nightly"

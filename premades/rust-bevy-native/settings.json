@@ -1,0 +1,10 @@
+{
+    "rust-analyzer.cargo.extraEnv": {
+        "RUSTFLAGS": "-Clinker=rust-lld.exe"
+    },
+    "terminal.integrated.env.windows": {
+        "RUST_BACKTRACE": "full"
+    },
+    "editor.formatOnType": true,
+    "rust-analyzer.checkOnSave": false
+}
