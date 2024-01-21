@@ -1,0 +1,31 @@
+_scaffolder() {
+	local cur prev prev_prev subcommands opts project_kinds
+	COMPREPLY=()
+
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	prev_prev="${COMP_WORDS[COMP_CWORD-2]}"
+	project_kinds=$(scaffolder list | awk '{print $1}' | tail -n +2)
+
+	opts="-h -V -c --help --version --config"
+	subcommands="create help list"
+
+	if [[ "$prev" = "create" ]]; then
+		COMPREPLY=( $(compgen -W "${project_kinds}" -- ${cur}) )
+		return 0
+	fi
+
+	if [[ "$prev_prev" = "create" ]]; then
+		return 0
+	fi
+
+	if [[ "$cur" ==  -* ]]; then
+		COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+		return 0
+	fi
+
+	COMPREPLY=( $(compgen -W "${subcommands}" -- ${cur}) )
+	return 0
+}
+
+complete -o filenames -o default -F _scaffolder scaffolder
